@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    vuebnb
+                    vuebnb through Homestead
                 </div>
 
                 <div class="links">
