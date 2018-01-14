@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Vuebnb</title>
   <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+  <script type="text/javascript">
+    window.vuebnb_listing_model = "{!! addslashes(json_encode($model)) !!}";
+  </script>
 </head>
 <body>
 <div id="toolbar">
@@ -14,8 +17,9 @@
 </div>
 <div id="app">
   <div class="header">
-    <div class="header-img" :style="headerImageStyle" @click="modalOpen = true"></div>
-    <button class="view-photos">View Photos</button>
+    <div class="header-img" :style="headerImageStyle" @click="modalOpen = true">
+      <button class="view-photos">View Photos</button>
+    </div>
   </div>
   <div class="container">
     <div class="heading">
@@ -56,7 +60,7 @@
   <div id="modal" :class="{ show: modalOpen }">
     <div class="modal-content">
       <button @click="modalOpen = false" class="modal-close">&times;</button>
-      <img src="{{ asset('images/header.jpg') }}" />
+      <img :src="images[0]" />
     </div>
   </div>
 </div>
