@@ -2,32 +2,28 @@ import "core-js/fn/object/assign";
 import Vue from 'vue';
 import { populateAmenitiesAndPrices } from './helpers';
 
+import HeaderImage from '../components/HeaderImage.vue';
+import ImageCarousel from '../components/ImageCarousel.vue';
+import ModalWindow from '../components/ModalWindow.vue';
+import FeatureList from '../components/FeatureList.vue';
+import ExpandableText from '../components/ExpandableText.vue';
+
 let model = JSON.parse(window.vuebnb_listing_model);
 model = populateAmenitiesAndPrices(model);
 
 var app = new Vue({
   el: '#app',
-  data: Object.assign(model, {
-    headerImageStyle: {
-      'background-image': `url(${model.images[0]})`
-    },
-    contracted: true,
-    modalOpen: false
-  }),
+  data: Object.assign(model, {}),
   methods: {
-    escapeKeyListener: function(evt) {
-      if (evt.keyCode === 27 && this.modalOpen) this.modalOpen = false;
+    openModal() {
+      this.$refs.imagemodal.modalOpen = true;
     }
   },
-  watch: {
-    modalOpen: function() {
-      this.modalOpen ? document.body.classList.add('modal-open') : document.body.classList.remove('modal-open');
-    }
-  },
-  created: function() {
-    document.addEventListener('keyup', this.escapeKeyListener);
-  },
-  destroyed: function() {
-    document.removeEventListener('keyup', this.escapeKeyListener);
+  components: {
+    HeaderImage,
+    ImageCarousel,
+    ModalWindow,
+    FeatureList,
+    ExpandableText
   }
 });

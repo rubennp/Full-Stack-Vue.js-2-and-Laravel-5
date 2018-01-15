@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Vuebnb</title>
   <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ asset('css/vue-style.css') }}" type="text/css">
   <script type="text/javascript">
     window.vuebnb_listing_model = "{!! addslashes(json_encode($model)) !!}";
   </script>
@@ -17,9 +18,7 @@
 </div>
 <div id="app">
   <div class="header">
-    <div class="header-img" :style="headerImageStyle" @click="modalOpen = true">
-      <button class="view-photos">View Photos</button>
-    </div>
+    <header-image :image-url="images[0]" @header-clicked="openModal"></header-image>
   </div>
   <div class="container">
     <div class="heading">
@@ -29,40 +28,25 @@
     <hr>
     <div class="about">
       <h3>About this listing</h3>
-      <p :class="{ contracted: contracted} ">@{{ about }}</p>
-      <button v-if="contracted" class="more" @click="contracted = false">+ More</button>
-      <button v-else class="more" @click="contracted = true">- Less</button>
+      <expandable-text>@{{ about }}</expandable-text>
     </div>
     <div class="lists">
-      <hr>
-      <div class="amenities list">
-        <div class="title"><strong>Amenities</strong></div>
-        <div class="content">
-          <div class="list-item" v-for="amenity in amenities">
-            <i class="fa fa-lg" :class="amenity.icon"></i>
-            <span>@{{ amenity.title }}</span>
-          </div>
-        </div>
-      </div>
-      <hr>
-      <div class="prices list">
-        <div class="title">
-          <strong>Prices</strong>
-        </div>
-        <div class="content">
-          <div class="list-item" v-for="price in prices">
-            @{{ price.title }}: <strong>@{{ price.value }}</strong>
-          </div>
-        </div>
-      </div>
+      <feature-list title="Amenities" :items="amenities">
+        <template slot-scope="amenity">
+          <i class="fa fa-lg" :class="amenity.icon"></i>
+          <span>@{{ amenity.title }}</span>
+        </template>
+      </feature-list>
+      <feature-list title="Prices" :items="prices">
+        <template slot-scope="price">
+          @{{ price.title }}: <strong>@{{ price.value }}</strong>
+        </template>
+      </feature-list>
     </div>
   </div>
-  <div id="modal" :class="{ show: modalOpen }">
-    <div class="modal-content">
-      <button @click="modalOpen = false" class="modal-close">&times;</button>
-      <img :src="images[0]" />
-    </div>
-  </div>
+  <modal-window ref="imagemodal">
+    <image-carousel :images="images"></image-carousel>
+  </modal-window>
 </div>
 <script src="{{ asset('js/app.js') }}"></script>
 </body>
