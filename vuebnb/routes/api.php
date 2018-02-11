@@ -18,4 +18,5 @@ use App\Listing;
 //     return $request->user();
 // });
 
+Route::get('/', 'ListingController@get_home_api');
 Route::get('/listing/{listing}', 'ListingController@get_listing_api');
