@@ -7,28 +7,44 @@ use App\Listing;
 
 class ListingController extends Controller
 {
-	private function add_image_urls($model, $id)
-	{
-		for ($i = 1; $i <= 4; $i++) {
-			$model['image_'.$i] = asset('images/'.$id.'/Image_'.$i.'.jpg');
-		}
+  private function get_listing($listing)
+  {
+    $model = $listing->toArray();
 
-		return $model;
-	}
-
-    public function get_listing_api(Listing $listing) 
-    {
-      	$model = $listing->toArray();
-      	$model = $this->add_image_urls($model, $listing->id);
-
-      	return response()->json($model);
+    for ($i = 1; $i <= 4; $i++) {
+      $model['image_'.$i] = asset('images/'.$listing->id.'/Image_'.$i.'.jpg');
     }
 
-    public function get_listing_web(Listing $listing)
-    {
-    	$model = $listing->toArray();
-    	$model = $this->add_image_urls($model, $listing->id);	
+    return collect(['listing' => $model]);
+  }
 
-    	return view('app', ['model' => $model]);
-    }
+  public function get_listing_api(Listing $listing) 
+  {
+      $data = $this->get_listing($listing);
+
+      return response()->json($data);
+  }
+
+  public function get_listing_web(Listing $listing)
+  {
+    $data = $this->get_listing($listing);
+
+    return view('app', ['data' => $data]);
+  }
+
+  public function get_home_web()
+  {
+    $collection = Listing::all([
+      'id', 'address', 'title', 'price_per_night'
+    ]);
+
+    $collection->transform(function($listing) {
+      $listing->thumb = asset('images/'.$listing->id.'/Image_1_thumb.jpg');
+      return $listing;
+    });
+
+    $data = collect(['listings' => $collection->toArray()]);
+
+    return view('app', ['data' => $data]);
+  }
 }
