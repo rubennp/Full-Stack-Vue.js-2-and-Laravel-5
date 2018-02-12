@@ -15,47 +15,30 @@
 </template>
 
 <script>
-	import { groupByCountry } from '../js/helpers';
-	import ListingSummary from './ListingSummary.vue';
 	import axios from 'axios';
+	import routeMixin from '../js/route-mixin.js';
+	import { groupByCountry } from '../js/helpers';
 
-	let serverData = JSON.parse(window.vuebnb_server_data);
-	let listing_groups = groupByCountry(serverData.listings);
+	// components
+	import ListingSummary from './ListingSummary.vue';
 
 	export default {
+		mixins: [ routeMixin ],
 		data() {
-			return { listing_groups }
+			return { listing_groups: null }
 		},
 		components: {
 			ListingSummary
 		},
-		beforeRouteEnter(to, from, next) {
-			let serverData = JSON.parse(window.vuebnb_server_data);
-			if (to.path === serverData.path) {
-				let listing_groups = groupByCountry(serverData.listings);
-				next(component => component.listing_groups = listing_groups);
-			} else {
-				axios.get(`/api/`).then(({ data }) => {
-					let listing_groups = groupByCountry(data.listings);
-					next(component => component.listing_groups = listing_groups);
-				});
+		methods: {
+			assignData({ listings }) {
+				this.listing_groups = groupByCountry(listings);
 			}
 		}
 	}
 </script>
 
 <style>
-	.home-container {
-		margin: 0 auto;
-		padding: 0 25px;
-	}
-
-	@media (min-width: 1131px) {
-		.home-container {
-			width: 1080px;
-		}
-	}
-
 	.listing-summary-group {
 		padding-bottom: 20px;
 	}
