@@ -4,7 +4,8 @@
     		<header-image 
     			v-if="images[0]" 
     			:image-url="images[0]" 
-    			@header-clicked="openModal">
+    			@header-clicked="openModal"
+    			:id="id">
     		</header-image>
   		</div>
   		<div class="listing-container">
@@ -57,7 +58,8 @@
 				address: null,
 				amenities: [],
 				prices: [],
-				images: []
+				images: [],
+				id: null
 			}
 		},
 		components: {
