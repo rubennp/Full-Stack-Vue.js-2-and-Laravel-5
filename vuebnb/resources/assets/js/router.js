@@ -7,12 +7,14 @@ Vue.use(VueRouter);
 
 import HomePage from '../components/HomePage.vue';
 import ListingPage from '../components/ListingPage';
+import SavedPage from '../components/SavedPage';
 
 let router = new VueRouter({
 	mode: 'history',
 	routes: [
 		{ path: '/', component: HomePage, name: 'home' },
-		{ path: '/listing/:listing', component: ListingPage, name: 'listing' }
+		{ path: '/listing/:listing', component: ListingPage, name: 'listing' },
+		{ path: '/saved', component: SavedPage, name: 'saved' }
 	],
 	scrollBehavior (to, from, savedPosition) {
 		return { x: 0, y: 0 }
