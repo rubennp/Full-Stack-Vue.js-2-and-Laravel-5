@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import axios from 'axios';
+import store from './store';
 
 Vue.use(VueRouter);
 
 import HomePage from '../components/HomePage.vue';
 import ListingPage from '../components/ListingPage';
 
-export default new VueRouter({
+let router = new VueRouter({
 	mode: 'history',
 	routes: [
 		{ path: '/', component: HomePage, name: 'home' },
@@ -26,5 +28,8 @@ router.beforeEach((to, from, next) => {
 		});
 	} else {
 		store.commit('addData', {route: to.name, data: serverData});
+		next();
 	}
 });
+
+export default router;

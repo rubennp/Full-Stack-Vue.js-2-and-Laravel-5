@@ -15,7 +15,7 @@ export default new Vuex.Store({
 		},
 		addData(state, { route, data }) {
 			if (route === 'listing') {
-				state.listing.push(data.listing);
+				state.listings.push(data.listing);
 			} else {
 				state.listing_summaries = data.listings;
 			}
