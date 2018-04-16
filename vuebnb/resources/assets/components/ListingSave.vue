@@ -1,5 +1,5 @@
 <template>
-	<div class="listing-save" @click.stop="toogleSaved()">
+	<div class="listing-save" @click.stop="toggleSaved()">
 		<button v-if="button">
 			<i :class="classes"></i>
 			{{ message }}
@@ -12,8 +12,8 @@
 	export default {
 		props: [ 'id', 'button' ],
 		methods: {
-			toogleSaved() {
-				this.$store.commit('toogleSaved', this.id);
+			toggleSaved() {
+				this.$store.dispatch('toggleSaved', this.id);
 			}
 		},
 		computed: {
